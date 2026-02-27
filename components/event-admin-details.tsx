@@ -38,7 +38,7 @@ const schema = z
 
 type FormValues = z.infer<typeof schema>;
 
-type Category = { id: string; name: string; slug: string };
+type Category = { id: string; name: string; name_ko?: string | null; slug: string };
 
 function toDateTimeLocal(iso: string | null): string {
   if (!iso) return "";
@@ -98,7 +98,7 @@ export function EventAdminDetails({
     const supabase = createClient();
     supabase
       .from("categories")
-      .select("id, name, slug, emoji")
+      .select("id, name, name_ko, slug, emoji")
       .order("name")
       .then(({ data }) => setCategories(data ?? []));
   }, []);
@@ -219,7 +219,7 @@ export function EventAdminDetails({
               render={({ field }) => (
                 <DateTimePicker
                   id="start_time"
-                  value={field.value}
+                  value={field.value ?? ""}
                   onChange={field.onChange}
                   placeholder="mm/dd/yyyy, --:-- --"
                   aria-label="Event start date and time"

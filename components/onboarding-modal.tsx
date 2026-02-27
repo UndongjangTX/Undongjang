@@ -17,7 +17,7 @@ import { Check } from "lucide-react";
 import { useOnboarding } from "@/context/onboarding-context";
 import { getCategoryDisplayName } from "@/lib/category-labels";
 
-type Category = { id: string; name: string; slug: string };
+type Category = { id: string; name: string; name_ko?: string | null; slug: string };
 
 export function OnboardingModal() {
   const {
@@ -69,7 +69,7 @@ export function OnboardingModal() {
       }
       const [p, { data: categoriesData }] = await Promise.all([
         getCurrentUserProfile(),
-        supabase.from("categories").select("id, name, slug, emoji").order("name"),
+        supabase.from("categories").select("id, name, name_ko, slug, emoji").order("name"),
       ]);
       setProfile(p);
       setCategories(categoriesData ?? []);

@@ -120,7 +120,7 @@ const step2Schema = z.object({
 type Step1Form = z.infer<typeof step1Schema>;
 type Step2Form = z.infer<typeof step2Schema>;
 
-type Category = { id: string; name: string; slug: string };
+type Category = { id: string; name: string; name_ko?: string | null; slug: string };
 
 export default function NewGroupPage() {
   const router = useRouter();
@@ -182,7 +182,7 @@ export default function NewGroupPage() {
       try {
         const { data } = await supabase
           .from("categories")
-          .select("id, name, slug, emoji")
+          .select("id, name, name_ko, slug, emoji")
           .order("name");
         setCategories(data ?? []);
       } finally {
@@ -348,7 +348,7 @@ export default function NewGroupPage() {
       } else if (isRecurring && step2Data.repeat_interval === "weekly" && step2Data.recurrence_weekday !== undefined && step2Data.recurrence_weekday !== "" && step2Data.start_time_time) {
         const wd = Number(step2Data.recurrence_weekday);
         const now = new Date();
-        let d = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        const d = new Date(now.getFullYear(), now.getMonth(), now.getDate());
         let diff = wd - d.getDay();
         if (diff < 0) diff += 7;
         if (diff === 0) diff = 7;
@@ -738,7 +738,7 @@ export default function NewGroupPage() {
                     render={({ field }) => (
                       <DateTimePicker
                         id="start_time"
-                        value={field.value}
+                        value={field.value ?? ""}
                         onChange={field.onChange}
                         placeholder={t("eventForm.dateTimePlaceholder")}
                         aria-label={t("eventForm.startTimeAria")}

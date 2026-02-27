@@ -69,7 +69,7 @@ export function TimeWithAMPMInput({
         placeholder={placeholder}
         value={displayStr}
         onChange={handleTimeChange}
-        className={cn("font-mono tabular-nums pr-32", props.className)}
+        className={cn("font-mono tabular-nums pr-32", className)}
       />
       <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
         <Clock className="h-4 w-4 text-muted-foreground shrink-0 pointer-events-none" aria-hidden />
@@ -119,6 +119,7 @@ function to12h(value24: string): { display12h: string; ampm: "AM" | "PM" } {
   return { display12h, ampm };
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- signature kept for API
 function parse12hFormatted(formatted: string, ampm: "AM" | "PM"): [number, number] {
   if (!formatted || formatted.length < 5) return [12, 0];
   const [hStr, mStr] = formatted.split(":");

@@ -245,8 +245,6 @@ export function getNextOccurrences(
   count = 5
 ): { startTime: string; label: string }[] {
   const start = new Date(startTimeIso);
-  const end = endTimeIso ? new Date(endTimeIso) : null;
-  const durationMs = end ? end.getTime() - start.getTime() : 0;
   const now = new Date();
   const out: { startTime: string; label: string }[] = [];
 
@@ -271,7 +269,7 @@ export function getNextOccurrences(
 
   if (interval === "weekly") {
     const targetWeekday = recurrenceWeekday ?? start.getDay();
-    let d = new Date(now);
+    const d = new Date(now);
     d.setHours(start.getHours(), start.getMinutes(), start.getSeconds(), 0);
     let diff = targetWeekday - d.getDay();
     if (diff < 0) diff += 7;
@@ -288,7 +286,7 @@ export function getNextOccurrences(
   if (interval === "monthly") {
     const targetWeekOfMonth = recurrenceWeekOfMonth ?? getWeekOfMonth(start);
     const targetWeekday = recurrenceWeekday ?? start.getDay();
-    let d = new Date(now.getFullYear(), now.getMonth(), 1);
+    const d = new Date(now.getFullYear(), now.getMonth(), 1);
     for (let m = 0; m < 24; m++) {
       const cand = getNthWeekdayInMonth(d.getFullYear(), d.getMonth(), targetWeekOfMonth, targetWeekday);
       if (cand) {
@@ -314,7 +312,7 @@ export function getNthWeekdayInMonth(
 ): Date | null {
   if (weekOfMonth === 5) {
     const last = new Date(year, month + 1, 0);
-    let d = new Date(last);
+    const d = new Date(last);
     while (d.getDay() !== weekday) {
       d.setDate(d.getDate() - 1);
       if (d.getMonth() !== month) return null;

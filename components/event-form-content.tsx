@@ -15,7 +15,7 @@ import type { EventFormValues } from "@/lib/event-form-schema";
 import { t, privacyLabel } from "@/lib/i18n";
 import { getCategoryDisplayName } from "@/lib/category-labels";
 
-type Category = { id: string; name: string; slug: string };
+type Category = { id: string; name: string; name_ko?: string | null; slug: string };
 
 type Props = {
   form: UseFormReturn<EventFormValues>;
@@ -141,7 +141,7 @@ export function EventFormContent({
               render={({ field }) => (
                 <DateTimePicker
                   id="start_time"
-                  value={field.value}
+                  value={field.value ?? ""}
                   onChange={field.onChange}
                   placeholder={t("eventForm.dateTimePlaceholder")}
                   aria-label={t("eventForm.startTimeAria")}
@@ -184,7 +184,7 @@ export function EventFormContent({
 <DateMaskedInput
                             id="recurrence_start_date"
                             placeholder="MM-DD-YYYY"
-                      value={field.value}
+                      value={field.value ?? ""}
                       onChange={field.onChange}
                     />
                   )}

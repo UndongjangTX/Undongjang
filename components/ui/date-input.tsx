@@ -16,7 +16,7 @@ export interface DateInputProps {
 }
 
 const DateInput = React.forwardRef<unknown, DateInputProps>(
-  ({ className, id, value, onChange, placeholder, disabled, "aria-label": ariaLabel }, _ref) => {
+  ({ className, id, value, onChange, placeholder, disabled, "aria-label": ariaLabel }) => {
     return (
       <DatePicker
         id={id}

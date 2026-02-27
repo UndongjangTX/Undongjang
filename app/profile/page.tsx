@@ -17,7 +17,7 @@ import { getCurrentUserProfile, uploadProfilePhoto, validateAvatarFile, type Use
 import { getCategoryDisplayName } from "@/lib/category-labels";
 import { t } from "@/lib/i18n";
 
-type Category = { id: string; name: string; slug: string };
+type Category = { id: string; name: string; name_ko?: string | null; slug: string };
 
 const profileSchema = z.object({
   phone_number: z.string().optional(),
@@ -87,7 +87,7 @@ export default function ProfilePage() {
       setAuthEmail(session.user.email ?? null);
       const [p, { data: categoriesData }] = await Promise.all([
         getCurrentUserProfile(),
-        supabase.from("categories").select("id, name, slug, emoji").order("name"),
+        supabase.from("categories").select("id, name, name_ko, slug, emoji").order("name"),
       ]);
       if (!p) {
         setLoading(false);

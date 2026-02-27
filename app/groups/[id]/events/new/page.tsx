@@ -18,7 +18,7 @@ const MAX_IMAGE_BYTES = 5 * 1024 * 1024; // 5MB
 const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/gif"];
 const COVERS_BUCKET = "covers";
 
-type Category = { id: string; name: string; slug: string };
+type Category = { id: string; name: string; name_ko?: string | null; slug: string };
 
 export default function NewEventPage({
   params,
@@ -91,7 +91,7 @@ export default function NewEventPage({
     (async () => {
       const { data } = await supabase
         .from("categories")
-        .select("id, name, slug, emoji")
+        .select("id, name, name_ko, slug, emoji")
         .order("name");
       setCategories(data ?? []);
     })();
@@ -150,7 +150,7 @@ export default function NewEventPage({
       } else if (isRecurring && values.repeat_interval === "weekly" && values.recurrence_weekday !== undefined && values.recurrence_weekday !== "" && values.start_time_time) {
         const wd = Number(values.recurrence_weekday);
         const now = new Date();
-        let d = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        const d = new Date(now.getFullYear(), now.getMonth(), now.getDate());
         let diff = wd - d.getDay();
         if (diff < 0) diff += 7;
         if (diff === 0) diff = 7;
