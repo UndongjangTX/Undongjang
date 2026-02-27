@@ -7,6 +7,7 @@ import { EventManageLink } from "@/components/event-manage-link";
 import { MessageOrganizerButton } from "@/components/message-organizer-button";
 import { PhotoAlbumSection } from "@/components/image-gallery";
 import { ProfileListSection } from "@/components/profile-list-section";
+import { EventMap } from "@/components/event-map";
 import { getEventById } from "@/lib/events";
 import { t } from "@/lib/i18n";
 
@@ -141,17 +142,10 @@ export default async function EventDetailPage({
               event.address.trim().toLowerCase() !== "온라인" &&
               (
                 <section>
-                  <div className="flex h-48 w-full items-center justify-center overflow-hidden rounded-lg border bg-muted text-muted-foreground">
-                    <a
-                      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.address ?? event.locationName ?? "")}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex flex-col items-center gap-2 p-4 hover:text-foreground"
-                    >
-                      <MapPin className="h-6 w-6" />
-                      <span className="text-xs">{t("events.viewOnMap")}</span>
-                    </a>
-                  </div>
+                  <EventMap
+                    address={event.address}
+                    locationName={event.locationName}
+                  />
                 </section>
               )}
           </div>

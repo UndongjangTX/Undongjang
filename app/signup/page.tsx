@@ -47,6 +47,23 @@ export default function SignupPage() {
   const [showCodeInput, setShowCodeInput] = React.useState(false);
   const [phoneVerified, setPhoneVerified] = React.useState(false);
   const [verifyError, setVerifyError] = React.useState<string | null>(null);
+  const [oauthError, setOauthError] = React.useState<string | null>(null);
+
+  async function signInWithOAuth(provider: "google" | "kakao") {
+    setOauthError(null);
+    const supabase = createClient();
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider,
+      options: {
+        redirectTo: typeof window !== "undefined" ? `${window.location.origin}/profile` : undefined,
+      },
+    });
+    if (error) {
+      setOauthError(error.message);
+      return;
+    }
+    if (data?.url) window.location.href = data.url;
+  }
 
   React.useEffect(() => {
     const supabase = createClient();
@@ -140,6 +157,41 @@ export default function SignupPage() {
           <p className="mt-1 text-sm text-muted-foreground">
             {t("auth.signupSub")}
           </p>
+        </div>
+
+        <div className="grid grid-cols-2 gap-2">
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="w-full"
+            onClick={() => signInWithOAuth("google")}
+          >
+            {t("auth.signUpWithGoogle")}
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="w-full"
+            onClick={() => signInWithOAuth("kakao")}
+          >
+            {t("auth.signUpWithKakao")}
+          </Button>
+        </div>
+        {oauthError && (
+          <p className="text-xs text-destructive">{oauthError}</p>
+        )}
+
+        <div className="relative">
+          <div className="absolute inset-0 flex items-center">
+            <span className="w-full border-t" />
+          </div>
+          <div className="relative flex justify-center text-xs uppercase">
+            <span className="bg-background px-2 text-muted-foreground">
+              {t("auth.orSignUpWithEmail")}
+            </span>
+          </div>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">

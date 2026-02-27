@@ -37,8 +37,11 @@ Next.js 프로젝트를 Vercel 무료(Hobby) 플랜으로 배포하고, 스테�
 |------|--------|--------------|
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase 프로젝트 URL | Production, Preview, Development 모두 체크 |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon public key | Production, Preview, Development 모두 체크 |
+| `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` | Google Maps JavaScript API 키 (이벤트 지도) | Production, Preview, Development 모두 체크 (선택) |
 
-3. **Save** 후, **Deployments** 탭에서 최신 배포에 들어가 **Redeploy** (환경 변수 반영)
+3. **Save** 후, **반드시 Redeploy**:
+   - **Deployments** 탭 → 가장 위 배포 클릭 → 오른쪽 **⋯** 메뉴 → **Redeploy** → **Redeploy** 확인
+   - `NEXT_PUBLIC_*` 값은 **빌드 시점**에 번들에 들어가므로, 변수 추가만 하고 Redeploy를 하지 않으면 사이트에는 반영되지 않습니다.
 
 > Supabase: [Dashboard](https://supabase.com/dashboard) → 프로젝트 → **Settings** → **API** 에서 URL과 `anon` `public` 키 확인
 

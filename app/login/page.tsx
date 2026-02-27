@@ -54,6 +54,22 @@ export default function LoginPage() {
     router.refresh();
   }
 
+  async function signInWithOAuth(provider: "google" | "kakao") {
+    setAuthError(null);
+    const supabase = createClient();
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider,
+      options: {
+        redirectTo: typeof window !== "undefined" ? `${window.location.origin}/profile` : undefined,
+      },
+    });
+    if (error) {
+      setAuthError(error.message);
+      return;
+    }
+    if (data?.url) window.location.href = data.url;
+  }
+
   return (
     <main className="min-h-screen flex items-center justify-center p-4">
       <div className="w-full max-w-sm space-y-8">
@@ -110,14 +126,23 @@ export default function LoginPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-2">
-          <Button type="button" variant="outline" size="sm" className="w-full">
+        <div className="grid grid-cols-2 gap-2">
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="w-full"
+            onClick={() => signInWithOAuth("google")}
+          >
             Google
           </Button>
-          <Button type="button" variant="outline" size="sm" className="w-full">
-            Facebook
-          </Button>
-          <Button type="button" variant="outline" size="sm" className="w-full">
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="w-full"
+            onClick={() => signInWithOAuth("kakao")}
+          >
             KakaoTalk
           </Button>
         </div>
