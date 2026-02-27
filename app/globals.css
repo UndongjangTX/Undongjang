@@ -1,27 +1,160 @@
+@import "@fontsource/asta-sans/korean-500.css";
+@import "@fontsource/asta-sans/korean-800.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Brand colors */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-main: #04aa75;
+  --color-primary-green: #04aa75;
+  --color-point-gold: #f8b717;
+  --color-point-coral: #ff788c;
+  --color-sub: #dedfe0;
+  --color-text: #58595b;
+  /* Legacy / semantic */
+  --color-lightning-red: #ff788c;
+  --color-group-blue: #99CCFF;
+  --color-special-gold: #f8b717;
+  /* Asta Sans: Medium (body), ExtraBold (headers) */
+  --font-asta-medium: "Asta Sans", ui-sans-serif, sans-serif;
+  --font-asta-extrabold: "Asta Sans", ui-sans-serif, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* SB Aggro OTF Light - place font file in public/fonts/ (e.g. SBAggroOTF-Light.otf) */
+@font-face {
+  font-family: 'SB Aggro OTF Light';
+  src: url('/fonts/SBAggroOTF-Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+:root {
+  --font-sb-aggro: 'SB Aggro OTF Light', var(--font-asta-medium), ui-sans-serif, sans-serif;
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+}
+
+/* Global: same height for event and group cards; description/title single line with ellipsis */
+.card-same-height {
+  min-height: 270px;
+}
+
+/* Global: rounded box style for rich text / description textareas (events, groups, admin) */
+.textarea-rounded-box {
+  @apply flex w-full rounded-2xl border border-input bg-transparent px-4 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary-green min-h-[100px];
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    /* Text #58595b */
+    --foreground: 225 2% 35%;
+    --card: 0 0% 100%;
+    --card-foreground: 225 2% 35%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 225 2% 35%;
+    /* Main #04aa75 */
+    --primary: 160 95% 34%;
+    --primary-foreground: 0 0% 100%;
+    /* Sub light grey #dedfe0 */
+    --secondary: 210 5% 87%;
+    --secondary-foreground: 225 2% 35%;
+    --muted: 210 5% 94%;
+    --muted-foreground: 225 2% 45%;
+    --accent: 210 5% 94%;
+    --accent-foreground: 225 2% 35%;
+    --destructive: 351 100% 74%;
+    --destructive-foreground: 0 0% 100%;
+    /* Sub #dedfe0 */
+    --border: 210 5% 87%;
+    --input: 210 5% 87%;
+    --ring: 160 95% 34%;
+    /* Point colors */
+    --chart-1: 351 100% 74%;
+    --chart-2: 43 94% 53%;
+    --chart-3: 160 95% 34%;
+    --chart-4: 210 5% 87%;
+    --chart-5: 225 2% 35%;
+    --radius: 0.5rem;
+  }
+  .dark {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+}
+
+
+
+/* Hero banner: no border on section or image only (not on buttons) */
+.hero-banner-section,
+.hero-banner-section > .hero-banner-image-wrap,
+.hero-banner-section > .hero-banner-image-wrap * {
+  border-width: 0 !important;
+  border-style: none !important;
+  box-shadow: none !important;
+}
+/* Clip top/bottom edges of hero image (removes grey line in all browsers) */
+.hero-banner-section .hero-banner-image-wrap img {
+  clip-path: inset(2px 0 2px 0);
+  -webkit-clip-path: inset(2px 0 2px 0);
+}
+
+/* Calendar / date-time inputs: site font + accent so native picker uses main green (selected date circle, time pill); date hug content */
+input[type="date"],
+input[type="datetime-local"],
+input[type="time"] {
+  font-family: var(--font-sb-aggro), var(--font-asta-medium), ui-sans-serif, sans-serif;
+  accent-color: var(--color-primary-green);
+}
+input[type="date"] {
+  width: fit-content;
+  min-width: 10rem;
+}
+input[type="date"]:focus-visible,
+input[type="datetime-local"]:focus-visible,
+input[type="time"]:focus-visible {
+  outline: none;
+  border-color: var(--color-primary-green);
+  --tw-ring-color: var(--color-primary-green);
+}
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-medium;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-asta-extrabold), var(--font-asta-medium), ui-sans-serif, sans-serif;
+    @apply font-extrabold;
   }
 }

@@ -1,0 +1,10 @@
+# Minimal config so the CLI finds the project and migrations.
+# See: https://supabase.com/docs/guides/local-development/cli/config
+project_id = "undongjang"
+
+[db]
+major_version = 17
+
+[db.migrations]
+enabled = true
+schema_paths = []
